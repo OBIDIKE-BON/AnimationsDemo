@@ -1,13 +1,15 @@
 package com.sriyank.animationsdemo
 
+import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Animator.AnimatorListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 	fun translateAnimation(view: View) {
 
 		val translateAnimator = AnimatorInflater.loadAnimator(this, R.animator.translate)
-		translateAnimator.apply {
+		translateAnimator?.apply {
 			setTarget(targetImage)
 			start()
 		}
@@ -45,7 +47,30 @@ class MainActivity : AppCompatActivity() {
 	fun fadeAnimation(view: View) {
 
 		val fadeAnimator = AnimatorInflater.loadAnimator(this, R.animator.alpha)
-		fadeAnimator.setTarget(targetImage)
-		fadeAnimator.start()
+		fadeAnimator?.apply {
+			setTarget(targetImage)
+			start()
+		}
+	}
+
+	// Implementation of AnimatorListener interface
+	override fun onAnimationStart(animation: Animator?) {
+
+		Toast.makeText(this, "Animation Started", Toast.LENGTH_SHORT).show()
+	}
+
+	override fun onAnimationRepeat(animation: Animator?) {
+
+		Toast.makeText(this, "Animation Repeated", Toast.LENGTH_SHORT).show()
+	}
+
+	override fun onAnimationEnd(animation: Animator?) {
+
+		Toast.makeText(this, "Animation Ended", Toast.LENGTH_SHORT).show()
+	}
+
+	override fun onAnimationCancel(animation: Animator?) {
+
+		Toast.makeText(this, "Animation Cancelled", Toast.LENGTH_SHORT).show()
 	}
 }
